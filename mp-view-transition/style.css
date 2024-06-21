@@ -1,0 +1,39 @@
+@view-transition {
+  navigation: auto;
+}
+body {
+  background-color: #add8e6;
+}
+nav > ul {
+  list-style-type: "";
+}
+nav > ul > li {
+  padding-left: 12px;
+  height: 32px;
+}
+nav > ul > li > a {
+  text-decoration: none;
+  color: black;
+}
+nav > ul > li > a:hover {
+  text-decoration: underline;
+}
+#navHome {
+  anchor-name: --anchor-home;
+}
+#navBlog {
+  anchor-name: --anchor-blog;
+}
+#navAbout {
+  anchor-name: --anchor-about;
+}
+#mark {
+  position: absolute;
+  position-anchor: --anchor-home;
+  background: black;
+  left: anchor(left);
+  top: anchor(top);
+  width: 4px;
+  height: 32px;
+  view-transition-name: mark;
+}
