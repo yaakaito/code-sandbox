@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    body {
+      background-color: #90ee90;
+    }
+    #mark {
+      position-anchor: --anchor-about;
+    }
+  </style>
+  <body>
+    <nav>
+      <ul>
+        <li id="navHome">
+          <a href="./index.html">🏠 Home</a>
+        </li>
+        <li id="navBlog">
+          <a href="./blog.html">🖊 Blog</a>
+        </li>
+        <li id="navAbout">
+          <a href="./about.html">🐴 About</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mark"></div>
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "urls": ["index.html", "blog.html"]
+          }
+        ]
+      }
+    </script>
+  </body>
+</html>
