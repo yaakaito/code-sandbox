@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8" />
+  <style>
+    .container  {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .increment {
+        margin-top: 8px;
+        padding: 4px;
+        cursor: pointer;
+    }
+  </style>
+  <body>
+    <div class="container">
+        <my-custom-element data-count="12345">
+            <template shadowrootmode="open">
+                <style>
+                    * {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .container {
+                        display: flex;
+                        gap: 8px;
+                    }
+                    .counter {
+                        font-weight: bold;
+                    }
+                    .increment, .decrement {
+                        width: 20px;
+                        cursor: pointer;
+                    }
+                </style>
+                <div class="container">
+                <p class="counter">12345</p>
+                <button class="increment">+</button>
+                <button class="decrement">-</button>
+                </div>
+            </template>
+        </my-custom-element>
+    </div>
+    <button class="increment">+ Counter</button>
+  </body>
+  <script>
+    class MyCustomElement extends HTMLElement {
+        connectedCallback() {
+            let count = parseInt(this.getAttribute('data-count'))
+            this.shadowRoot.querySelector('.increment').addEventListener('click', () => {
+                this.shadowRoot.querySelector('.counter').textContent = String(++count)
+            })
+            this.shadowRoot.querySelector('.decrement').addEventListener('click', () => {
+                this.shadowRoot.querySelector('.counter').textContent = String(--count)
+            })
+        }
+    }
+    customElements.define("my-custom-element", MyCustomElement);
+
+    document.querySelector('.increment').addEventListener('click', () => {
+        const container = document.createElement('div')
+        const value = Math.floor(Math.random() * 100)
+        const color = Math.floor(Math.random() * 16777215).toString(16)
+        container.setHTMLUnsafe(`
+        <my-custom-element data-count="${value}">
+            <template shadowrootmode="open">
+                <style>
+                    * {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .container {
+                        display: flex;
+                        gap: 8px;
+                    }
+                    .counter {
+                        font-weight: bold;
+                        color: #${color};
+                    }
+                    .increment, .decrement {
+                        width: 20px;
+                        cursor: pointer;
+                    }
+                </style>
+                <div class="container">
+                <p class="counter">${value}</p>
+                <button class="increment">+</button>
+                <button class="decrement">-</button>
+                </div>
+            </template>
+        </my-custom-element>`)
+        document.querySelector('.container').appendChild(container)
+    })
+  </script>
+</html>
