@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8" />
+  <style>
+    #anchorPopoverLeftTrigger {
+      anchor-name: --anchor-left;
+    }
+    #anchorPopoverLeft {
+      position-anchor: --anchor-left;
+      position-try-fallbacks: flip-block, flip-inline;
+      position-area: bottom span-right;
+      margin: 0;
+      width: 300px;
+    }
+    #anchorPopoverRightTrigger {
+      float: right;
+      anchor-name: --anchor-right;
+    }
+    #anchorPopoverRight {
+      position-anchor: --anchor-right;
+      position-try-fallbacks: flip-inline, flip-inline flip-block;
+      position-area: bottom span-right;
+      margin: 0;
+      width: 300px;
+    }
+  </style>
+  <body>
+    <section>
+      <h2>Popover</h2>
+      <button popovertarget="mypopover">toggle popover</button>
+      <div id="mypopover" popover>Popover content</div>
+    </section>
+    <section>
+      <h2>Popover (auto/manual/hint)</h2>
+      <button popovertarget="autoPopover">auto popover</button>
+      <div id="autoPopover" popover="auto" style="margin-top: 0px">
+        Auto Popover
+      </div>
+      <button popovertarget="manualPopover">manual popover</button>
+      <div id="manualPopover" popover="manual" style="margin-top: 20px">
+        Manual Popover
+      </div>
+      <button popovertarget="hintPopover1">hint popover1</button>
+      <div id="hintPopover1" popover="hint" style="margin-top: 40px">
+        Hint Popover1
+      </div>
+      <button popovertarget="hintPopover2">hint popover2</button>
+      <div id="hintPopover2" popover="hint" style="margin-top: 60px">
+        Hint Popover2
+      </div>
+    </section>
+    <section>
+      <h2>Nested Popover</h2>
+      <button popovertarget="nestedPopover">toggle nested popover</button>
+      <div id="nestedPopover" popover>
+        <button popovertarget="nestedPopover2">toggle nested popover 2</button>
+        <div id="nestedPopover2" popover>Nested Popover 2</div>
+      </div>
+    </section>
+    <section>
+      <h2>Dialog</h2>
+      <dialog id="dialog">
+        <h1>Dialog</h1>
+        <p>This is a dialog.</p>
+        <button>Close</button>
+      </dialog>
+      <button id="nonModalDialog">dialog.show()</button>
+      <button id="modalDialog">dialog.showModal()</button>
+    </section>
+    <section>
+      <h2>Popover + Dialog</h2>
+      <dialog id="popoverDialog" popover>
+        <h1>Popover Dialog</h1>
+        <p>This is a popover dialog.</p>
+        <button>Close</button>
+      </dialog>
+      <button id="nonModalPopoverDialog">dialog.showPopover()</button>
+      <button id="modalPopoverDialog">dialog.showPopover()</button>
+      <button id="modalPopoverDialogModalPopover">
+        dialog.showModal -> dialog.showPopover()
+      </button>
+    </section>
+    <section>
+      <h2>Anchor Positioning</h2>
+      <button id="anchorPopoverLeftTrigger" popovertarget="anchorPopoverLeft">
+        toggle anchor popover
+      </button>
+      <div id="anchorPopoverLeft" popover>Anchor Popover Left</div>
+      <button id="anchorPopoverRightTrigger" popovertarget="anchorPopoverRight">
+        toggle anchor popover
+      </button>
+      <div id="anchorPopoverRight" popover>Anchor Popover Right</div>
+    </section>
+    <section>
+      <h2>Close Watcher</h2>
+      <button id="closeWatcherPopoverTrigger">
+        toggle close watcher popover
+      </button>
+      <div id="closeWatcherPopover" popover="manual">Manual Popover</div>
+    </section>
+    <script>
+      const dialog = document.getElementById("dialog");
+      const nonModalDialog = document.getElementById("nonModalDialog");
+      const modalDialog = document.getElementById("modalDialog");
+
+      nonModalDialog.addEventListener("click", () => {
+        dialog.show();
+      });
+
+      modalDialog.addEventListener("click", () => {
+        dialog.showModal();
+      });
+
+      dialog.querySelector("button").addEventListener("click", () => {
+        dialog.close();
+      });
+
+      const popoverDialog = document.getElementById("popoverDialog");
+      const nonModalPopoverDialog = document.getElementById(
+        "nonModalPopoverDialog"
+      );
+      const modalPopoverDialog = document.getElementById("modalPopoverDialog");
+      const modalPopoverDialogModalPopover = document.getElementById(
+        "modalPopoverDialogModalPopover"
+      );
+
+      nonModalPopoverDialog.addEventListener("click", () => {
+        popoverDialog.showPopover();
+      });
+
+      modalPopoverDialog.addEventListener("click", () => {
+        popoverDialog.showPopover();
+      });
+
+      modalPopoverDialogModalPopover.addEventListener("click", () => {
+        popoverDialog.showModal();
+        popoverDialog.showPopover();
+      });
+
+      popoverDialog.querySelector("button").addEventListener("click", () => {
+        popoverDialog.close();
+        popoverDialog.hidePopover();
+      });
+
+      let closeWatcher = null;
+      const closeWatcherPopoverTrigger = document.getElementById(
+        "closeWatcherPopoverTrigger"
+      );
+      const closeWatcherPopover = document.getElementById(
+        "closeWatcherPopover"
+      );
+      closeWatcherPopoverTrigger.addEventListener("click", () => {
+        if (closeWatcher) {
+          closeWatcher.destroy();
+        }
+        closeWatcher = new CloseWatcher();
+        closeWatcher.onclose = () => {
+          closeWatcherPopover.hidePopover();
+        };
+        closeWatcherPopover.showPopover();
+      });
+    </script>
+  </body>
+</html>
