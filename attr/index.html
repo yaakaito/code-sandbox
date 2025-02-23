@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8" />
+  <style>
+    .code::before {
+      content: attr(data-language);
+    }
+
+    .box {
+      width: attr(data-width px, 200px);
+      height: attr(data-height px, 200px);
+      background: attr(data-color type(<color>), red);
+    }
+  </style>
+  <body>
+    <div class="code" data-language="ts"></div>
+    <div class="box" data-width="400" data-height="400" data-color="#ff00ff"></div>
+  </body>
+</html>
